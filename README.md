@@ -26,7 +26,7 @@ This script uses OpenAI's GPT-4 model to generate a response based on a text pro
 Run the script using Python from the command line:
 
 ```
-python3 chatbot.py
+python3 chattytxt.py
 ```
 
 The chatbot will generate a response to the prompt in your .txt file, display the response in the console, and save the conversation to a markdown file on your desktop.
