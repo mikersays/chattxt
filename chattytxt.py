@@ -60,7 +60,7 @@ def chatbot():
     with open(prompt_file_path, "r") as prompt_file:
         prompt = prompt_file.read().strip()
 
-    print(f"Generated response for the prompt from {prompt_file_path}")
+    print(f"Generating response for the prompt from {prompt_file_path}")
     print("----------------------------------")
 
     # Prepare the output file
