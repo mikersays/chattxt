@@ -51,35 +51,39 @@ def call_gpt_with_spinner(prompt, messages):
 def get_desktop_path():
     return os.path.join(os.path.expanduser("~"), "Desktop")
 
+# Function to read the instruction from an external file
+def read_instruction_from_file(file_path):
+    with open(file_path, "r") as file:
+        instruction = file.read().strip()
+    return instruction
+
 # Main function to start the chatbot
 def chatbot():
-    # Prepare the prompt file path
-    prompt_file_path = "<path_to_your_prompt_file>"
-    
-    # Read the content of the prompt file
-    with open(prompt_file_path, "r") as prompt_file:
-        prompt = prompt_file.read().strip()
-
-    print(f"Generating response for the prompt from {prompt_file_path}")
+    print("Ask me anything! Type 'q' to exit.")
     print("----------------------------------")
+    user_input = ""
 
     # Prepare the output file
     desktop_path = get_desktop_path()
     current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    output_filename = f"chat_output_{current_time}.md"
+    output_filename = f"chat_output_{current_time}.md"  # Changed the file extension to ".md"
     output_file_path = os.path.join(desktop_path, output_filename)
 
-    # Define Chatty's role or persona
-    messages = [{"role": "system", "content": "You are a helpful assistant."}]
-
+    system_instruction = read_instruction_from_file("AIpersona.txt")
+    messages = [{"role": "system", "content": system_instruction}]
+    
     with open(output_file_path, "w") as output_file:
-        output_file.write(f"Prompt: {prompt}\n\n")  # Added an extra line
+        while user_input.lower() != "q":
+            user_input = input("User: ")  # Replace this line
 
-        print("AI: ", end="", flush=True)
-        response = call_gpt_with_spinner(prompt, messages)
-        print(response)
+            if user_input.lower() != "q":
+                output_file.write(f"User: {user_input}\n\n")  # Added an extra line
 
-        output_file.write(f"AI: {response}\n\n")  # Added an extra line
+                print("AI: ", end="", flush=True)
+                response = call_gpt_with_spinner(user_input, messages)
+                print(response)
+
+                output_file.write(f"AI: {response}\n\n")  # Added an extra line
 
     print(f"Chatbot conversation saved to: {output_file_path}")
 
